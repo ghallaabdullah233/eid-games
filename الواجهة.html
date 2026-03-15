@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>فعاليات العيد</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --amber: #FFB703;
+      --sky: #D7F0F5;
+      --barbie: #FF76B7;
+      --lavender: #E2C6FE;
+      --peach: #FFA981;
+      --grape: #9E1F63;
+      --pastel: #FFD3F7;
+      --white: #ffffff;
+      --text: #6b1450;
+    }
+
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body{
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(180deg, var(--sky), var(--pastel), var(--lavender));
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .hero{
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 30px 20px;
+      position: relative;
+    }
+
+    .card{
+      background: rgba(255,255,255,0.35);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 2px solid rgba(255,255,255,0.5);
+      border-radius: 30px;
+      padding: 50px 30px;
+      max-width: 950px;
+      width: 100%;
+      box-shadow: 0 15px 40px rgba(158, 31, 99, 0.15);
+      position: relative;
+      z-index: 5;
+    }
+
+    h1{
+      font-family: 'Aref Ruqaa', serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      color: var(--grape);
+      margin-bottom: 18px;
+      text-shadow:
+        0 3px 0 var(--white),
+        0 8px 20px rgba(255, 183, 3, 0.35);
+      line-height: 1.4;
+    }
+
+    .subtitle{
+      font-size: 1.15rem;
+      color: var(--text);
+      line-height: 2;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .subtitle span{
+      display: block;
+    }
+
+    .stars span,
+    .balloons span,
+    .sparkles span{
+      position: absolute;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .stars span{
+      font-size: 28px;
+      animation: twinkle 3s infinite ease-in-out;
+      z-index: 1;
+    }
+
+    .sparkles span{
+      font-size: 20px;
+      animation: twinkle 2.5s infinite ease-in-out;
+      z-index: 1;
+    }
+
+    .balloons span{
+      font-size: 56px;
+      animation: floatUp 6s infinite ease-in-out;
+      z-index: 1;
+      opacity: 0.95;
+    }
+
+    .star1{ top: 10%; right: 12%; color: var(--amber); animation-delay: 0s; }
+    .star2{ top: 18%; left: 10%; color: var(--barbie); animation-delay: 1s; }
+    .star3{ bottom: 20%; right: 18%; color: var(--grape); animation-delay: 1.5s; }
+    .star4{ bottom: 14%; left: 12%; color: var(--peach); animation-delay: 0.5s; }
+
+    .spark1{ top: 30%; right: 25%; color: var(--barbie); }
+    .spark2{ top: 35%; left: 22%; color: var(--amber); }
+    .spark3{ bottom: 28%; left: 28%; color: var(--grape); }
+    .spark4{ bottom: 30%; right: 28%; color: var(--peach); }
+
+    .balloon1{ top: 8%; left: 7%; animation-delay: 0s; }
+    .balloon2{ top: 12%; right: 7%; animation-delay: 1s; }
+    .balloon3{ bottom: 8%; left: 8%; animation-delay: 2s; }
+    .balloon4{ bottom: 10%; right: 9%; animation-delay: 1.5s; }
+
+    .decor-circle{
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.35;
+      filter: blur(8px);
+      z-index: 0;
+    }
+
+    .c1{
+      width: 220px;
+      height: 220px;
+      background: var(--amber);
+      top: -40px;
+      right: -50px;
+    }
+
+    .c2{
+      width: 180px;
+      height: 180px;
+      background: var(--barbie);
+      bottom: -30px;
+      left: -40px;
+    }
+
+    .c3{
+      width: 140px;
+      height: 140px;
+      background: var(--lavender);
+      top: 20%;
+      left: 5%;
+    }
+
+    .c4{
+      width: 120px;
+      height: 120px;
+      background: var(--peach);
+      bottom: 18%;
+      right: 6%;
+    }
+
+    .play-btn{
+      margin-top: 30px;
+      background: #FFB703;
+      color: white;
+      border: none;
+      padding: 15px 35px;
+      font-size: 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-family: 'Cairo', sans-serif;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+      transition: 0.3s;
+    }
+
+    .play-btn:hover{
+      transform: scale(1.08);
+      background: #FF76B7;
+    }
+
+    .games-grid{
+      margin-top: 35px;
+      display: none;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      animation: fadeIn 0.6s ease;
+    }
+
+    .game-box{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100px;
+      text-decoration: none;
+      color: var(--grape);
+      background: rgba(255,255,255,0.78);
+      border: 2px solid rgba(255,255,255,0.9);
+      border-radius: 22px;
+      font-size: 19px;
+      font-weight: 700;
+      padding: 18px;
+      box-shadow: 0 10px 22px rgba(158, 31, 99, 0.10);
+      transition: 0.3s;
+    }
+
+    .game-box:hover{
+      transform: translateY(-6px) scale(1.03);
+      background: var(--white);
+      box-shadow: 0 14px 28px rgba(158, 31, 99, 0.18);
+    }
+
+    .game-box:nth-child(1){ background: rgba(255,183,3,0.25); }
+    .game-box:nth-child(2){ background: rgba(255,118,183,0.22); }
+    .game-box:nth-child(3){ background: rgba(226,198,254,0.45); }
+    .game-box:nth-child(4){ background: rgba(255,169,129,0.30); }
+    .game-box:nth-child(5){ background: rgba(255,211,247,0.55); }
+    .game-box:nth-child(6){ background: rgba(215,240,245,0.80); }
+    .game-box:nth-child(7){ background: rgba(255,183,3,0.18); }
+    .game-box:nth-child(8){ background: rgba(255,118,183,0.16); }
+
+    @keyframes twinkle{
+      0%,100%{ transform: scale(1) rotate(0deg); opacity: 0.8; }
+      50%{ transform: scale(1.25) rotate(10deg); opacity: 1; }
+    }
+
+    @keyframes floatUp{
+      0%,100%{ transform: translateY(0); }
+      50%{ transform: translateY(-18px); }
+    }
+
+    @keyframes fadeIn{
+      from{
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to{
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 900px){
+      .games-grid{
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px){
+      .card{
+        padding: 40px 20px;
+      }
+
+      .subtitle{
+        font-size: 1rem;
+      }
+
+      .balloons span{
+        font-size: 42px;
+      }
+
+      .stars span{
+        font-size: 22px;
+      }
+
+      .games-grid{
+        grid-template-columns: 1fr;
+      }
+
+      .game-box{
+        min-height: 85px;
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="decor-circle c1"></div>
+  <div class="decor-circle c2"></div>
+  <div class="decor-circle c3"></div>
+  <div class="decor-circle c4"></div>
+
+  <div class="stars">
+    <span class="star1">✦</span>
+    <span class="star2">★</span>
+    <span class="star3">✦</span>
+    <span class="star4">★</span>
+  </div>
+
+  <div class="sparkles">
+    <span class="spark1">✧</span>
+    <span class="spark2">✧</span>
+    <span class="spark3">✧</span>
+    <span class="spark4">✧</span>
+  </div>
+
+  <div class="balloons">
+    <span class="balloon1">🎈</span>
+    <span class="balloon2">🎈</span>
+    <span class="balloon3">🎈</span>
+    <span class="balloon4">🎈</span>
+  </div>
+
+  <section class="hero">
+    <div class="card">
+      <h1>فعاليات العيد</h1>
+
+      <p class="subtitle">
+        <span>المرء كثير بأهله</span>
+        <span>يارب عائلتي في مسرات دائمه</span>
+      </p>
+
+      <button class="play-btn" onclick="showGames()">يلا نلعب 🤩؟</button>
+
+      <div class="games-grid" id="games">
+        <a href="xo.html" class="game-box">الأول : اكس او</a>
+        <a href="flags.html" class="game-box">الثاني : الاعلام</a>
+        <a href="say-no.html" class="game-box">الثالث : قول بس لا تقول</a>
+        <a href="logos.html" class="game-box">الرابع : الشعارات</a>
+        <a href="match-images.html" class="game-box">الخامس : تطابق الصور</a>
+        <a href="lock-code.html" class="game-box">السادس : اكتشف رمز القفل</a>
+        <a href="guessing.html" class="game-box">السابع : التخمين</a>
+        <a href="focus.html" class="game-box">الثامن : التركيز</a>
+        <a href="winners.html" class="game-box"> التاسع : ملوك التفاعل</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function showGames() {
+      document.getElementById("games").style.display = "grid";
+    }
+  </script>
+
+</body>
+</html>

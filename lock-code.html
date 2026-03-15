@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>اكتشف رمز القفل</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800;900&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --amber:#FFB703;
+      --sky:#D7F0F5;
+      --barbie:#FF76B7;
+      --lavender:#E2C6FE;
+      --peach:#FFA981;
+      --grape:#9E1F63;
+      --pastel:#FFD3F7;
+      --white:#ffffff;
+      --text:#6b1450;
+    }
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family:'Cairo', sans-serif;
+      background:linear-gradient(180deg, var(--sky), var(--pastel), var(--lavender));
+      min-height:100vh;
+      overflow-x:hidden;
+      position:relative;
+      padding:30px 16px;
+    }
+
+    .decor-circle{
+      position:fixed;
+      border-radius:50%;
+      opacity:0.35;
+      filter:blur(8px);
+      z-index:0;
+    }
+
+    .c1{
+      width:220px;
+      height:220px;
+      background:var(--amber);
+      top:-40px;
+      right:-50px;
+    }
+
+    .c2{
+      width:180px;
+      height:180px;
+      background:var(--barbie);
+      bottom:-30px;
+      left:-40px;
+    }
+
+    .stars span,
+    .sparkles span,
+    .balloons span{
+      position:fixed;
+      user-select:none;
+      pointer-events:none;
+      z-index:0;
+    }
+
+    .stars span{
+      font-size:28px;
+      animation:twinkle 3s infinite ease-in-out;
+    }
+
+    .sparkles span{
+      font-size:20px;
+      animation:twinkle 2.5s infinite ease-in-out;
+    }
+
+    .balloons span{
+      font-size:50px;
+      animation:floatUp 6s infinite ease-in-out;
+      opacity:0.9;
+    }
+
+    .star1{ top:8%; right:12%; color:var(--amber); }
+    .star2{ top:18%; left:12%; color:var(--barbie); }
+    .star3{ bottom:18%; right:15%; color:var(--grape); }
+    .star4{ bottom:12%; left:10%; color:var(--peach); }
+
+    .spark1{ top:30%; right:22%; color:var(--barbie); }
+    .spark2{ top:36%; left:24%; color:var(--amber); }
+    .spark3{ bottom:28%; left:30%; color:var(--grape); }
+
+    .balloon1{ top:10%; left:6%; }
+    .balloon2{ top:12%; right:7%; }
+    .balloon3{ bottom:8%; left:9%; }
+
+    .page{
+      position:relative;
+      z-index:2;
+      max-width:1180px;
+      margin:auto;
+    }
+
+    .top-bar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:20px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      border:none;
+      border-radius:999px;
+      padding:12px 22px;
+      font-family:'Cairo', sans-serif;
+      font-size:16px;
+      font-weight:700;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      transition:0.25s;
+      box-shadow:0 8px 18px rgba(0,0,0,0.10);
+    }
+
+    .btn:hover{
+      transform:translateY(-2px) scale(1.03);
+    }
+
+    .btn-back{
+      background:var(--amber);
+      color:white;
+    }
+
+    .btn-new{
+      background:var(--grape);
+      color:white;
+    }
+
+    .btn-check{
+      background:var(--barbie);
+      color:white;
+    }
+
+    .btn-show{
+      background:var(--peach);
+      color:white;
+    }
+
+    .game-card{
+      background:rgba(255,255,255,0.40);
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+      border:2px solid rgba(255,255,255,0.55);
+      border-radius:32px;
+      padding:30px 20px 35px;
+      box-shadow:0 15px 40px rgba(158,31,99,0.15);
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+
+    h1{
+      font-family:'Aref Ruqaa', serif;
+      font-size:clamp(2.4rem, 6vw, 4.5rem);
+      color:var(--grape);
+      margin-bottom:12px;
+      text-shadow:0 3px 0 var(--white), 0 8px 20px rgba(255,183,3,0.30);
+    }
+
+    .sub{
+      color:var(--text);
+      font-size:22px;
+      font-weight:800;
+      margin-bottom:18px;
+    }
+
+    .encourage{
+      width:fit-content;
+      max-width:100%;
+      margin:0 auto 22px;
+      background:#fff6fc;
+      color:var(--grape);
+      padding:12px 18px;
+      border-radius:20px;
+      font-size:18px;
+      font-weight:800;
+      box-shadow:0 8px 18px rgba(158,31,99,0.08);
+    }
+
+    .main-layout{
+      display:grid;
+      grid-template-columns:1.05fr 0.95fr;
+      gap:24px;
+      align-items:start;
+    }
+
+    .lock-section{
+      background:rgba(255,255,255,0.45);
+      border-radius:28px;
+      padding:22px;
+      box-shadow:0 10px 25px rgba(158,31,99,0.10);
+    }
+
+    .level-badge{
+      width:fit-content;
+      margin:0 auto 12px;
+      background:rgba(255,255,255,0.86);
+      color:var(--grape);
+      font-size:16px;
+      font-weight:900;
+      padding:10px 18px;
+      border-radius:18px;
+      box-shadow:0 8px 16px rgba(158,31,99,0.08);
+    }
+
+    .round-badge{
+      width:fit-content;
+      margin:0 auto 12px;
+      background:#fff6fc;
+      color:var(--grape);
+      font-size:15px;
+      font-weight:800;
+      padding:8px 16px;
+      border-radius:18px;
+      box-shadow:0 8px 16px rgba(158,31,99,0.08);
+    }
+
+    .turn-badge{
+      width:fit-content;
+      margin:0 auto 18px;
+      background:white;
+      color:var(--grape);
+      font-size:17px;
+      font-weight:900;
+      padding:10px 18px;
+      border-radius:18px;
+      box-shadow:0 8px 16px rgba(158,31,99,0.08);
+    }
+
+    .lock-emoji{
+      font-size:90px;
+      margin-bottom:14px;
+      display:inline-block;
+    }
+
+    .lock-emoji.shake{
+      animation:shake 0.4s ease;
+    }
+
+    .code-box{
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+      direction:ltr;
+    }
+
+    .digit-box{
+      width:62px;
+      height:70px;
+      background:rgba(255,255,255,0.95);
+      border-radius:20px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:32px;
+      font-weight:900;
+      color:var(--grape);
+      box-shadow:0 10px 20px rgba(158,31,99,0.10);
+      direction:ltr;
+    }
+
+    .guess-input{
+      width:100%;
+      max-width:280px;
+      border:none;
+      outline:none;
+      background:white;
+      border-radius:18px;
+      padding:14px 16px;
+      font-size:20px;
+      font-weight:800;
+      text-align:center;
+      color:var(--grape);
+      box-shadow:0 10px 20px rgba(158,31,99,0.10);
+      direction:ltr;
+    }
+
+    .guess-hint{
+      color:#7b3562;
+      font-size:15px;
+      font-weight:700;
+      margin-top:12px;
+      margin-bottom:18px;
+    }
+
+    .lock-controls{
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+    }
+
+    .message-box{
+      background:#fff6fc;
+      color:var(--grape);
+      border-radius:20px;
+      padding:14px 16px;
+      font-size:18px;
+      font-weight:800;
+      min-height:62px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 8px 18px rgba(158,31,99,0.08);
+      line-height:1.8;
+    }
+
+    .history-box{
+      margin-top:18px;
+      background:rgba(255,255,255,0.75);
+      border-radius:22px;
+      padding:14px;
+      box-shadow:0 8px 18px rgba(158,31,99,0.08);
+      text-align:right;
+    }
+
+    .history-title{
+      color:var(--grape);
+      font-size:18px;
+      font-weight:900;
+      margin-bottom:10px;
+      text-align:center;
+    }
+
+    .history-list{
+      max-height:220px;
+      overflow:auto;
+      padding-left:4px;
+    }
+
+    .history-item{
+      background:white;
+      border-radius:16px;
+      padding:10px 12px;
+      margin-bottom:8px;
+      color:#6f2a57;
+      font-size:15px;
+      font-weight:700;
+      box-shadow:0 6px 12px rgba(158,31,99,0.06);
+      direction:ltr;
+      text-align:right;
+    }
+
+    .side-section{
+      background:rgba(255,255,255,0.45);
+      border-radius:28px;
+      padding:22px 18px 26px;
+      box-shadow:0 10px 25px rgba(158,31,99,0.10);
+    }
+
+    .side-title{
+      color:var(--grape);
+      font-size:24px;
+      font-weight:900;
+      margin-bottom:14px;
+    }
+
+    .leader-card{
+      background:rgba(255,255,255,0.78);
+      border-radius:24px;
+      padding:16px;
+      box-shadow:0 10px 22px rgba(158,31,99,0.08);
+      margin-bottom:22px;
+    }
+
+    .lead-text{
+      font-size:22px;
+      font-weight:900;
+      color:var(--grape);
+    }
+
+    .arena{
+      height:300px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      gap:24px;
+      margin-bottom:20px;
+      padding:10px 0;
+    }
+
+    .team-column-wrap{
+      width:150px;
+      text-align:center;
+    }
+
+    .score-top{
+      font-size:40px;
+      font-weight:900;
+      color:var(--grape);
+      margin-bottom:10px;
+    }
+
+    .column-track{
+      height:210px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      background:rgba(255,255,255,0.45);
+      border-radius:28px;
+      padding:12px;
+      box-shadow:inset 0 0 0 2px rgba(255,255,255,0.4);
+    }
+
+    .team-column{
+      width:100%;
+      height:70px;
+      border-radius:24px 24px 12px 12px;
+      transition:height 0.45s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .team-column::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      height:28%;
+      background:rgba(255,255,255,0.25);
+      border-radius:24px 24px 0 0;
+    }
+
+    .team-column.first{
+      background:linear-gradient(180deg, #ffd971, var(--amber));
+      box-shadow:0 10px 24px rgba(255,183,3,0.20);
+    }
+
+    .team-column.second{
+      background:linear-gradient(180deg, #ff9fd3, var(--barbie));
+      box-shadow:0 10px 24px rgba(255,118,183,0.20);
+    }
+
+    .team-column.leader{
+      transform:translateY(-8px) scale(1.03);
+      box-shadow:0 0 0 6px rgba(255,255,255,0.45), 0 16px 30px rgba(158,31,99,0.18);
+    }
+
+    .team-label{
+      margin-top:14px;
+      font-size:20px;
+      font-weight:900;
+      color:var(--grape);
+    }
+
+    .controls-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+
+    .score-card{
+      background:rgba(255,255,255,0.82);
+      border-radius:24px;
+      padding:18px 14px;
+      box-shadow:0 10px 20px rgba(158,31,99,0.10);
+      transition:0.3s;
+    }
+
+    .score-card.first-team{
+      border:2px solid rgba(255,183,3,0.40);
+    }
+
+    .score-card.second-team{
+      border:2px solid rgba(255,118,183,0.40);
+    }
+
+    .score-card.active{
+      transform:translateY(-4px);
+      box-shadow:0 0 0 5px rgba(255,255,255,0.45), 0 14px 24px rgba(158,31,99,0.15);
+    }
+
+    .team-name{
+      color:var(--grape);
+      font-size:21px;
+      font-weight:900;
+      margin-bottom:8px;
+    }
+
+    .score-actions{
+      display:flex;
+      justify-content:center;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .mini-btn{
+      border:none;
+      border-radius:999px;
+      padding:9px 14px;
+      font-family:'Cairo', sans-serif;
+      font-size:14px;
+      font-weight:800;
+      cursor:pointer;
+      transition:0.25s;
+    }
+
+    .mini-btn:hover{
+      transform:scale(1.05);
+    }
+
+    .plus-first{
+      background:var(--amber);
+      color:white;
+    }
+
+    .plus-second{
+      background:var(--barbie);
+      color:white;
+    }
+
+    .minus-btn{
+      background:#f3e5ef;
+      color:var(--grape);
+    }
+
+    @keyframes shake{
+      0%{transform:translateX(0)}
+      20%{transform:translateX(-8px)}
+      40%{transform:translateX(8px)}
+      60%{transform:translateX(-8px)}
+      80%{transform:translateX(8px)}
+      100%{transform:translateX(0)}
+    }
+
+    @keyframes twinkle{
+      0%,100%{ transform:scale(1); opacity:0.8; }
+      50%{ transform:scale(1.22); opacity:1; }
+    }
+
+    @keyframes floatUp{
+      0%,100%{ transform:translateY(0); }
+      50%{ transform:translateY(-18px); }
+    }
+
+    @media (max-width:980px){
+      .main-layout{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width:600px){
+      .top-bar{
+        justify-content:center;
+      }
+
+      .sub{
+        font-size:18px;
+      }
+
+      .digit-box{
+        width:52px;
+        height:62px;
+        font-size:28px;
+      }
+
+      .controls-grid{
+        grid-template-columns:1fr;
+      }
+
+      .arena{
+        gap:16px;
+      }
+
+      .team-column-wrap{
+        width:130px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="decor-circle c1"></div>
+  <div class="decor-circle c2"></div>
+
+  <div class="stars">
+    <span class="star1">✦</span>
+    <span class="star2">★</span>
+    <span class="star3">✦</span>
+    <span class="star4">★</span>
+  </div>
+
+  <div class="sparkles">
+    <span class="spark1">✧</span>
+    <span class="spark2">✧</span>
+    <span class="spark3">✧</span>
+  </div>
+
+  <div class="balloons">
+    <span class="balloon1">🎈</span>
+    <span class="balloon2">🎈</span>
+    <span class="balloon3">🎈</span>
+  </div>
+
+  <div class="page">
+    <div class="top-bar">
+      <button class="btn btn-new" onclick="newRound()">جولة جديدة 🔐</button>
+      <a class="btn btn-back" href="الواجهة.html">رجوع للواجهة ✨</a>
+    </div>
+
+    <div class="game-card">
+      <h1>اكتشف رمز القفل</h1>
+      <p class="sub">فكّوا الشفرة إذا تقدرون 😏</p>
+
+      <div class="encourage">كل 3 جولات بيصير التحدي أصعب... شدّوا حيلكم 🔥</div>
+
+      <div class="main-layout">
+        <div class="lock-section">
+          <div class="level-badge" id="levelBadge">المستوى الحالي: سهل</div>
+          <div class="round-badge" id="roundBadge">الجولة 1 من 3 في هذا المستوى</div>
+          <div class="turn-badge" id="turnBadge">الدور الحالي: الفريق الأول</div>
+
+          <div class="lock-emoji" id="lockIcon">🔒</div>
+
+          <div class="code-box" id="codeSlots"></div>
+
+          <input id="guessInput" class="guess-input" type="text" placeholder="اكتب التخمين هنا" maxlength="5" inputmode="numeric" dir="ltr">
+          <div class="guess-hint" id="guessHint">في هذا المستوى، الرمز مكوّن من 3 أرقام</div>
+
+          <div class="lock-controls">
+            <button class="btn btn-check" onclick="checkGuess()">تحقّق من الرمز</button>
+            <button class="btn btn-show" onclick="showCode()">إظهار الرمز</button>
+          </div>
+
+          <div class="message-box" id="messageBox">ابدؤوا التخمين 🔍</div>
+
+          <div class="history-box">
+            <div class="history-title">سجل المحاولات</div>
+            <div class="history-list" id="historyList"></div>
+          </div>
+        </div>
+
+        <div class="side-section">
+          <div class="side-title">لوحة النقاط 🎯</div>
+
+          <div class="leader-card">
+            <div class="lead-text" id="leadText">التعادل قائم 🤝</div>
+          </div>
+
+          <div class="arena">
+            <div class="team-column-wrap">
+              <div class="score-top" id="scoreFirst">0</div>
+              <div class="column-track">
+                <div class="team-column first" id="columnFirst"></div>
+              </div>
+              <div class="team-label">الفريق الأول</div>
+            </div>
+
+            <div class="team-column-wrap">
+              <div class="score-top" id="scoreSecond">0</div>
+              <div class="column-track">
+                <div class="team-column second" id="columnSecond"></div>
+              </div>
+              <div class="team-label">الفريق الثاني</div>
+            </div>
+          </div>
+
+          <div class="controls-grid">
+            <div class="score-card first-team" id="cardFirst">
+              <div class="team-name">الفريق الأول</div>
+              <div class="score-actions">
+                <button class="mini-btn plus-first" onclick="addPoint('first')">+1 نقطة</button>
+                <button class="mini-btn minus-btn" onclick="removePoint('first')">-1</button>
+              </div>
+            </div>
+
+            <div class="score-card second-team" id="cardSecond">
+              <div class="team-name">الفريق الثاني</div>
+              <div class="score-actions">
+                <button class="mini-btn plus-second" onclick="addPoint('second')">+1 نقطة</button>
+                <button class="mini-btn minus-btn" onclick="removePoint('second')">-1</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="unlockSound" preload="auto">
+    <source src="https://assets.mixkit.co/active_storage/sfx/2868/2868-preview.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    let currentLevel = "easy";
+    let secretCode = "";
+    let scoreFirst = 0;
+    let scoreSecond = 0;
+    let currentTurn = "first";
+    let roundEnded = false;
+    let roundsInLevel = 1;
+
+    const codeSlots = document.getElementById("codeSlots");
+    const guessInput = document.getElementById("guessInput");
+    const guessHint = document.getElementById("guessHint");
+    const messageBox = document.getElementById("messageBox");
+    const historyList = document.getElementById("historyList");
+    const levelBadge = document.getElementById("levelBadge");
+    const turnBadge = document.getElementById("turnBadge");
+    const roundBadge = document.getElementById("roundBadge");
+    const lockIcon = document.getElementById("lockIcon");
+    const unlockSound = document.getElementById("unlockSound");
+
+    const scoreFirstText = document.getElementById("scoreFirst");
+    const scoreSecondText = document.getElementById("scoreSecond");
+    const columnFirst = document.getElementById("columnFirst");
+    const columnSecond = document.getElementById("columnSecond");
+    const leadText = document.getElementById("leadText");
+    const cardFirst = document.getElementById("cardFirst");
+    const cardSecond = document.getElementById("cardSecond");
+
+    function codeLength(){
+      if(currentLevel === "easy") return 3;
+      if(currentLevel === "medium") return 4;
+      return 5;
+    }
+
+    function generateCode(length){
+      let code = "";
+      for(let i = 0; i < length; i++){
+        code += Math.floor(Math.random() * 10);
+      }
+      return code;
+    }
+
+    function renderSlots(hidden = true){
+      codeSlots.innerHTML = "";
+      const len = codeLength();
+
+      for(let i = 0; i < len; i++){
+        const box = document.createElement("div");
+        box.className = "digit-box";
+        box.textContent = hidden ? "•" : secretCode[i];
+        codeSlots.appendChild(box);
+      }
+    }
+
+    function updateLevelUI(){
+      const len = codeLength();
+
+      levelBadge.textContent =
+        currentLevel === "easy" ? "المستوى الحالي: سهل" :
+        currentLevel === "medium" ? "المستوى الحالي: متوسط" :
+        "المستوى الحالي: صعب";
+
+      roundBadge.textContent = `الجولة ${roundsInLevel} من 3 في هذا المستوى`;
+
+      guessInput.maxLength = len;
+      guessInput.value = "";
+      guessHint.textContent = `في هذا المستوى، الرمز مكوّن من ${len} أرقام`;
+    }
+
+    function updateTurnUI(){
+      turnBadge.textContent = currentTurn === "first"
+        ? "الدور الحالي: الفريق الأول"
+        : "الدور الحالي: الفريق الثاني";
+    }
+
+    function switchTurn(){
+      currentTurn = currentTurn === "first" ? "second" : "first";
+      updateTurnUI();
+    }
+
+    function shakeLock(){
+      lockIcon.classList.remove("shake");
+      void lockIcon.offsetWidth;
+      lockIcon.classList.add("shake");
+    }
+
+    function playUnlockSound(){
+      unlockSound.currentTime = 0;
+      unlockSound.play().catch(() => {});
+    }
+
+    function progressLevelIfNeeded(){
+      if(roundsInLevel < 3){
+        roundsInLevel++;
+        return;
+      }
+
+      roundsInLevel = 1;
+
+      if(currentLevel === "easy"){
+        currentLevel = "medium";
+      } else if(currentLevel === "medium"){
+        currentLevel = "hard";
+      } else {
+        currentLevel = "hard";
+      }
+    }
+
+    function newRound(){
+      secretCode = generateCode(codeLength());
+      renderSlots(true);
+      updateLevelUI();
+      currentTurn = "first";
+      roundEnded = false;
+      updateTurnUI();
+      messageBox.textContent = "ابدؤوا التخمين 🔍";
+      historyList.innerHTML = "";
+      guessInput.value = "";
+    }
+
+    function analyzeGuess(guess, secret){
+      let correctPlace = 0;
+      let correctNumberWrongPlace = 0;
+
+      const secretUsed = Array(secret.length).fill(false);
+      const guessUsed = Array(guess.length).fill(false);
+
+      for(let i = 0; i < guess.length; i++){
+        if(guess[i] === secret[i]){
+          correctPlace++;
+          secretUsed[i] = true;
+          guessUsed[i] = true;
+        }
+      }
+
+      for(let i = 0; i < guess.length; i++){
+        if(guessUsed[i]) continue;
+
+        for(let j = 0; j < secret.length; j++){
+          if(!secretUsed[j] && guess[i] === secret[j]){
+            correctNumberWrongPlace++;
+            secretUsed[j] = true;
+            break;
+          }
+        }
+      }
+
+      return { correctPlace, correctNumberWrongPlace };
+    }
+
+    function addHistory(text){
+      const item = document.createElement("div");
+      item.className = "history-item";
+      item.setAttribute("dir", "ltr");
+      item.textContent = text;
+      historyList.prepend(item);
+    }
+
+    function createBotReply(result){
+      const totalCorrect = result.correctPlace + result.correctNumberWrongPlace;
+
+      if(result.correctPlace === 0 && result.correctNumberWrongPlace === 0){
+        return "كلهم خطأ ❌";
+      }
+
+      if(result.correctPlace > 0 && result.correctNumberWrongPlace === 0){
+        if(result.correctPlace === 1) return "فيه رقم واحد صح وفي مكانه ✅";
+        if(result.correctPlace === 2) return "فيه رقمين صح وفي مكانهم ✅";
+        return `فيه ${result.correctPlace} أرقام صح وفي مكانهم ✅`;
+      }
+
+      if(result.correctPlace === 0 && result.correctNumberWrongPlace > 0){
+        if(result.correctNumberWrongPlace === 1) return "فيه رقم واحد صح لكن بمكان غلط 🔄";
+        if(result.correctNumberWrongPlace === 2) return "فيه رقمين صح لكن بمكان غلط 🔄";
+        return `فيه ${result.correctNumberWrongPlace} أرقام صح لكن بأماكن غلط 🔄`;
+      }
+
+      return `فيه ${totalCorrect} أرقام صحيحة، منها ${result.correctPlace} في مكانها الصح و${result.correctNumberWrongPlace} في مكان غلط 🔍`;
+    }
+
+    function checkGuess(){
+      if(roundEnded){
+        messageBox.textContent = "الجولة انتهت، ابدؤوا جولة جديدة 🔐";
+        return;
+      }
+
+      const guess = guessInput.value.trim();
+      const len = codeLength();
+      const teamName = currentTurn === "first" ? "الفريق الأول" : "الفريق الثاني";
+
+      if(!/^\d+$/.test(guess) || guess.length !== len){
+        messageBox.textContent = `اكتبي ${len} أرقام بالضبط ✍️`;
+        return;
+      }
+
+      const result = analyzeGuess(guess, secretCode);
+
+      if(guess === secretCode){
+        roundEnded = true;
+        renderSlots(false);
+
+        if(currentTurn === "first"){
+          addPoint("first");
+        } else {
+          addPoint("second");
+        }
+
+        playUnlockSound();
+
+        const winText = `${teamName} فك الرمز بنجاح 🔓`;
+        messageBox.textContent = winText;
+        addHistory(`${teamName} جرّب ${guess}: فتح القفل بنجاح 🔓`);
+        guessInput.value = "";
+
+        progressLevelIfNeeded();
+        return;
+      }
+
+      const reply = createBotReply(result);
+      messageBox.textContent = reply;
+      addHistory(`${teamName} جرّب ${guess}: ${reply}`);
+      guessInput.value = "";
+      shakeLock();
+      switchTurn();
+    }
+
+    function showCode(){
+      renderSlots(false);
+      roundEnded = true;
+      messageBox.textContent = `الرمز هو: ${secretCode}`;
+      addHistory(`تم إظهار الرمز: ${secretCode}`);
+    }
+
+    function addPoint(team){
+      if(team === "first"){
+        scoreFirst++;
+      } else {
+        scoreSecond++;
+      }
+      updateScores();
+    }
+
+    function removePoint(team){
+      if(team === "first" && scoreFirst > 0){
+        scoreFirst--;
+      } else if(team === "second" && scoreSecond > 0){
+        scoreSecond--;
+      }
+      updateScores();
+    }
+
+    function updateScores(){
+      scoreFirstText.textContent = scoreFirst;
+      scoreSecondText.textContent = scoreSecond;
+
+      const firstHeight = 70 + (scoreFirst * 16);
+      const secondHeight = 70 + (scoreSecond * 16);
+
+      columnFirst.style.height = firstHeight + "px";
+      columnSecond.style.height = secondHeight + "px";
+
+      columnFirst.classList.remove("leader");
+      columnSecond.classList.remove("leader");
+      cardFirst.classList.remove("active");
+      cardSecond.classList.remove("active");
+
+      if(scoreFirst > scoreSecond){
+        leadText.textContent = "الفريق الأول متقدم 🔥";
+        columnFirst.classList.add("leader");
+        cardFirst.classList.add("active");
+      } else if(scoreSecond > scoreFirst){
+        leadText.textContent = "الفريق الثاني متقدم 🔥";
+        columnSecond.classList.add("leader");
+        cardSecond.classList.add("active");
+      } else {
+        leadText.textContent = "التعادل قائم 🤝";
+      }
+    }
+
+    document.querySelectorAll(".level-btn").forEach(button => {
+      button.addEventListener("click", function(){
+        document.querySelectorAll(".level-btn").forEach(b => b.classList.remove("active"));
+        this.classList.add("active");
+
+        const level = this.textContent.trim();
+        if(level === "سهل") currentLevel = "easy";
+        if(level === "متوسط") currentLevel = "medium";
+        if(level === "صعب") currentLevel = "hard";
+
+        roundsInLevel = 1;
+        newRound();
+      });
+    });
+
+    guessInput.addEventListener("keydown", function(event){
+      if(event.key === "Enter"){
+        checkGuess();
+      }
+    });
+
+    updateScores();
+    newRound();
+  </script>
+
+</body>
+</html>
